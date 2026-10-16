@@ -244,8 +244,18 @@ function isQuestClaimedInPeriod(q, userClaimedQuests) {
 // 9. ISLEPILOT OFFICIAL GARAGE SYSTEM (100% LIVE CLOUD)
 // ==========================================
 
-// Super Admins cố định có quyền cao nhất
-const SUPER_ADMINS = ['76561198354289789', '76561198838095252', '76561198682056372', '76561199229687125'];
+// Super Admins cố định có quyền cao nhất (kèm biến ADMIN_SUPER_STEAM_IDS từ môi trường)
+const envSuperAdmins = (process.env.ADMIN_SUPER_STEAM_IDS || '')
+  .split(',')
+  .map(id => id.trim())
+  .filter(id => /^\d{17}$/.test(id));
+const SUPER_ADMINS = Array.from(new Set([
+  '76561198354289789',
+  '76561198838095252',
+  '76561198682056372',
+  '76561199229687125',
+  ...envSuperAdmins
+]));
 
 
 // Helper kiểm tra một Steam ID có quyền Admin không

@@ -17,7 +17,7 @@ function get(url) {
 (async () => {
   await new Promise(resolve=>server.once('listening',resolve));
   const routes=app._router.stack.filter(layer=>layer.route && typeof layer.route.path==='string' && layer.route.path.startsWith('/api/'));
-  assert.equal(routes.length,70,'Existing API handlers and Plinko routes must be registered');
+  assert.equal(routes.length,74,'Existing API handlers, Plinko, and Roulette routes must be registered');
   for (const route of routes) assert.ok(Object.values(API.routes).includes(route.route.path),route.route.path);
   assert.equal(PilotAPI.playerGarage('76561198000000001'),'/players/76561198000000001/garage');
   assert.equal(API.url(API.routes.skinInfo,{steamId:'123'}),'/api/skin/info?steamId=123');

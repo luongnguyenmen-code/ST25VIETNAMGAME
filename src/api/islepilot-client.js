@@ -17,9 +17,9 @@ const CACHE_TTL_MS = {
 // Helper: Call live IslePilot API with caching and scope awareness
 async function callIslePilot(endpoint, method = 'GET', body = null, bypassCache = false) {
   const cfg = getConfig();
-  const token = process.env.ISLEPILOT_API_TOKEN || cfg.islepilot?.api_token || '';
+  const token = process.env.ISLEPILOT_API_KEY || process.env.ISLEPILOT_API_TOKEN || cfg.islepilot?.api_token || '';
   if (!token || cfg.islepilot?.enabled === false) return null;
-  const base = process.env.ISLEPILOT_API_BASE_URL || cfg.islepilot?.api_base_url || Core.upstreamBaseURL;
+  const base = process.env.ISLEPILOT_BASE_URL || process.env.ISLEPILOT_API_BASE_URL || cfg.islepilot?.api_base_url || Core.upstreamBaseURL;
   const cleanBase = base.replace(/\/$/, '');
   const url = `${cleanBase}${endpoint}`;
 

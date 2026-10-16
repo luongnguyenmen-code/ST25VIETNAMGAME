@@ -250,7 +250,7 @@ const App = {
     this.navSignature = navSignature;
 
     const isSurvivalActive = ['bando.html', 'gara.html', 'tha-xac.html', 'skin.html'].includes(currentFile);
-    const isEconomyActive = ['nhiem-vu.html', 'giao-dich.html', 'hom-qua.html', 'plinko.html'].includes(currentFile);
+    const isEconomyActive = ['nhiem-vu.html', 'giao-dich.html', 'hom-qua.html', 'plinko.html', 'vong-quay.html'].includes(currentFile);
     const isCommunityActive = ['bxh.html', 'moi-ban.html', 'ho-tro.html', 'noi-quy.html', 'cai-dat.html'].includes(currentFile);
 
     navUl.innerHTML = `
@@ -297,7 +297,7 @@ const App = {
             🎁 Mở Hòm May Mắn
           </a>
           <a href="plinko.html" class="nav-dropdown-item ${currentFile === 'plinko.html' ? 'active' : ''}">✦ Plinko ST25</a>
-          
+          <a href="vong-quay.html" class="nav-dropdown-item ${currentFile === 'vong-quay.html' ? 'active' : ''}">🎰 Vòng Quay Roulette</a>
         </div>
       </li>
 

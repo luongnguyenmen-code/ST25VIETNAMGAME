@@ -6,11 +6,12 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "test": "node tests/plinko-regression.cjs && node tests/auth-secret-regression.cjs && node tests/api-concurrency-regression.cjs && node tests/islepilot-skin-regression.cjs && node tests/project-audit.cjs && node tests/backend-regression.cjs && node tests/architecture-regression.cjs && node tests/frontend-regression.cjs && node tests/home-player-regression.cjs && node tests/quests-layout-regression.cjs && node tests/redesign-static-check.cjs"
+    "test": "node tests/plinko-regression.cjs && node tests/roulette-regression.cjs && node tests/auth-secret-regression.cjs && node tests/api-concurrency-regression.cjs && node tests/islepilot-skin-regression.cjs && node tests/project-audit.cjs && node tests/backend-regression.cjs && node tests/architecture-regression.cjs && node tests/frontend-regression.cjs && node tests/home-player-regression.cjs && node tests/quests-layout-regression.cjs && node tests/redesign-static-check.cjs"
   },
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^4.22.3",
+    "mysql2": "^3.24.6",
     "pg": "^8.23.1"
   }
 }

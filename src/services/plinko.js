@@ -3,18 +3,18 @@ const defaultStore=require('../models/plinko-store');
 const error=(message,status)=>Object.assign(Error(message),{status});
 module.exports=function(bank,store=defaultStore){
   const ready=sid=>{
-    if(!(process.env.PLINKO_DATABASE_URL||process.env.PORTAL_DATABASE_URL))return false;
+    if(!(process.env.MYSQL_HOST||process.env.PLINKO_DATABASE_URL||process.env.PORTAL_DATABASE_URL))return false;
     // A private verification deployment can allow only explicitly named test accounts.
     if(process.env.PLINKO_TEST_STEAM_IDS)return !!sid&&process.env.PLINKO_TEST_STEAM_IDS.split(',').map(id=>id.trim()).filter(id=>/^\d{17}$/.test(id)).includes(String(sid));
     return process.env.PLINKO_ENABLED==='true';
   };
   const requirePlayer=sid=>{if(!sid)throw error('Liên kết Steam để chơi bằng Lúa.',401);};
-  const publicGame=row=>({id:row.id,status:row.status,createdAt:Number(row.created_at),commitment:engine.commitment(row.seed),...row.payload,...(row.status==='settled'?{serverSeed:row.seed}:{})});
+  const publicGame=row=>({id:row.id,status:row.status,createdAt:Number(row.created_at),commitment:engine.commitment(row.seed),...(typeof row.payload === 'string' ? JSON.parse(row.payload) : row.payload),...(row.status==='settled'?{serverSeed:row.seed}:{})});
   async function state(sid){
     let balance=null,history=[],available=ready(sid),databaseFailed=false;
     await Promise.all([
       (async()=>{if(sid)try{balance=await bank.balance(sid);}catch{}})(),
-      (async()=>{if(process.env.PLINKO_DATABASE_URL||process.env.PORTAL_DATABASE_URL)try{if(store.database)await store.database();if(sid)history=(await store.history(sid)).map(publicGame);}catch{databaseFailed=true;available=false;}})()
+      (async()=>{if(process.env.MYSQL_HOST||process.env.PLINKO_DATABASE_URL||process.env.PORTAL_DATABASE_URL)try{if(store.database)await store.database();if(sid)history=(await store.history(sid)).map(publicGame);}catch{databaseFailed=true;available=false;}})()
     ]);
     const walletAvailable=!!sid&&Number.isFinite(balance)&&balance>=0;
     const blocked=history.some(game=>['review','debit_pending','credit_pending'].includes(game.status));
